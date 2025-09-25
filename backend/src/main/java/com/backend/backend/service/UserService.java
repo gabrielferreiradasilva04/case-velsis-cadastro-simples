@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public UserResponseDTO save(UserRequestDTO dto){
-        var userEntity = this.userMapper.requestDtoToEntity(dto);
+        UserEntity userEntity = this.userMapper.requestDtoToEntity(dto);
         this.normalize(userEntity);
         return this.userMapper.entityToResponseDto(this.userRepository.save(userEntity));
     }
@@ -35,16 +35,18 @@ public class UserService {
     }
 
     public void update(UserRequestDTO dto, UUID userId){
-        Optional<UserEntity> userOptional = this.userRepository.findById(userId);
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
-        if(userOptional.isEmpty()) {
-            throw new EntityNotFoundException("Usuário não encontrado");
-        }
+        user.setName(dto.name());
+        user.setDocument(dto.document());
+        user.setAddressNumber(dto.addressNumber());
+        user.setAddressLine(dto.addressLine());
+        user.setCity(dto.city());
+        user.setState(dto.state());
+        user.setZip(dto.zip());
 
-        UserEntity newUserData = this.userMapper.requestDtoToEntity(dto);
-        newUserData.setId(userOptional.get().getId());
-
-        this.userRepository.save(newUserData);
+        this.userRepository.save(user);
     }
     public void delete(UUID userId){
         Optional<UserEntity> userOptional = this.userRepository.findById(userId);
@@ -63,7 +65,7 @@ public class UserService {
         user.setDocument(user.getDocument().trim());
         user.setAddressLine(user.getAddressLine().trim());
         user.setCity(user.getCity().trim());
-        user.setSate(user.getSate().trim().toUpperCase());
+        user.setState(user.getState().trim().toUpperCase());
         user.setZip(user.getZip().trim());
     }
 }

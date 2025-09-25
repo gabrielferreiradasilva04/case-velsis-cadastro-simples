@@ -3,6 +3,8 @@ package com.backend.backend.domain;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,7 +32,7 @@ public class UserEntity {
     @Column(length = 155, nullable = false)
     private String city;
     @Column(nullable = false)
-    private String sate;
+    private String state;
     @Column(nullable = false)
     private String zip;
 
@@ -43,7 +46,7 @@ public class UserEntity {
 
 
     public UserEntity(UUID id, String name, LocalDate birthDate, String document, String addressLine, int addressNumber,
-                      String city, String sate, String zip, LocalDate createdAt, LocalDateTime updatedAt) {
+                      String city, String state, String zip, LocalDate createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
@@ -51,7 +54,7 @@ public class UserEntity {
         this.addressLine = addressLine;
         this.addressNumber = addressNumber;
         this.city = city;
-        this.sate = sate;
+        this.state = state;
         this.zip = zip;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -132,12 +135,12 @@ public class UserEntity {
         this.city = city;
     }
 
-    public String getSate() {
-        return sate;
+    public String getState() {
+        return state;
     }
 
-    public void setSate(String sate) {
-        this.sate = sate;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getZip() {
@@ -151,8 +154,16 @@ public class UserEntity {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", birthDate=" + birthDate +
                 ", document='" + document + '\'' +
+                ", addressLine='" + addressLine + '\'' +
+                ", addressNumber=" + addressNumber +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 

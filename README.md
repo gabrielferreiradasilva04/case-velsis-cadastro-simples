@@ -32,6 +32,7 @@ O frontend é servido via **Nginx** após build e o backend via **Spring Boot**.
 - frontend: http://localhost:3000/
 - backend: http://localhost:8080/
 - postgres: http://localhost:5432/
+- Obs: a senha do banco é padrão: user postgres e senha postgres
 
 ---
 

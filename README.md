@@ -46,6 +46,7 @@ O frontend é servido via **Nginx** após build e o backend via **Spring Boot**.
 ## Observações
 Por se tratar de um projeto pequeno, e também por buscar uma implementação mais vanilla, não foi utilizado nenhuma biblioteca de componentes como o Vuetify ou o PrimeVue, mas costumo utilizar bastante ambos.
 Evitei também utilizar lombok para trazer uma implementação mais raíz do Java, por mais que tenha sido utilizado o Spring boot. Também não usei anotações de validação mais avançadas para mostrar a implementação manual de alguns processos de validação.
+Não foi realizada a implementação de testes unitários devido ao tamanho e simplicidade do projeto. Mas provavelmente será implementado no futuro
 
 Espero que gostem do projeto!
 

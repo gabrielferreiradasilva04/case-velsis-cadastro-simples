@@ -38,12 +38,11 @@ function deleteUser(user) {
           <td>{{ user.addressNumber }}</td>
           <td>{{ user.city }}</td>
           <td>{{ user.state }}</td>
-          <td>{{ user.zipCode }}</td>
+          <td>{{ user.zip }}</td>
           <td>{{ user.createdAt }}</td>
           <td>{{ user.updatedAt }}</td>
           <td>
             <button class="btn edit" @click="editUser(user)">Editar</button>
-            <button class="btn delete" @click="deleteUser(user)">Deletar</button>
           </td>
         </tr>
       </tbody>
@@ -65,13 +64,13 @@ function deleteUser(user) {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  min-height: 300px;
 }
 
 .user-table th {
   background: #f5f5f5;
   text-align: left;
   padding: 12px;
+  font-size: 12px;
   font-weight: 600;
   color: #333;
 }
@@ -79,6 +78,16 @@ function deleteUser(user) {
 .user-table td {
   padding: 10px 12px;
   border-top: 1px solid #eee;
+  min-width: 100px;
+  max-width: 150px;
+}
+
+.user-table th:last-child,
+.user-table td:last-child {
+  position: sticky;
+  right: 0;
+  background: #fff;
+  z-index: 1;
 }
 
 .user-table tr:nth-child(even) {
@@ -115,4 +124,6 @@ function deleteUser(user) {
 .btn.delete:hover {
   background: #c62828;
 }
+
+
 </style>

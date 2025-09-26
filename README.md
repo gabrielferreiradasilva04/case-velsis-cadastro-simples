@@ -3,6 +3,8 @@
 Um projeto fullstack simples para gerenciar usuários com frontend em **Vue 3**, backend em **Spring Boot** e banco de dados **PostgreSQL**.  
 Foi utilizado docker para servir os serviços desenvolvidos
 
+Poderia ter sido utilizado o Swagger para a documentação da API. Mas devido ao prazo o foco foi as funcionalidades e validações principais
+
 O frontend é servido via **Nginx** após build e o backend via **Spring Boot**.
 
 ---

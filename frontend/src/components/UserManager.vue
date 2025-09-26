@@ -4,23 +4,32 @@ import { ref, onMounted } from "vue";
 import SearchBar from "./SearchBar.vue";
 import UserTable from "./UserTable.vue";
 import api from "../services/api";
-import UserRegisterForm from "./UserRegisterForm.vue";
+import UserDialog from "./UserDialog.vue";
 
+/**
+ * Variáveis reativas para o componente
+ */
 const users = ref([]);
 const currentPage = ref(0);
 const totalPages = ref(0);
 const pageSize = ref(20);
 const searchTerm = ref("");
 const showAddUserDialog = ref(false);
+const selectedUser = ref(null)
 
-function openAddUserDialog() {
+function openAddUserDialog(user = null) {
+  selectedUser.value = user
   showAddUserDialog.value = true;
 }
 
 function closeAddUserDialog() {
   showAddUserDialog.value = false;
+  selectedUser.value = null
 }
 
+/**
+ * Carrega a lista de usuários do servidor com paginação e filtro de busca
+ */
 async function fetchUsers(page = 0) {
   try {
     const { data } = await api.get("/users", {
@@ -38,23 +47,38 @@ async function fetchUsers(page = 0) {
   }
 }
 
+/**
+ * Passar para a próxima página
+ */
 function nextPage() {
   if (currentPage.value < totalPages.value - 1) {
     fetchUsers(currentPage.value + 1);
   }
 }
 
+/**
+ * Voltar para a página anterior
+ */
 function prevPage() {
   if (currentPage.value > 0) {
     fetchUsers(currentPage.value - 1);
   }
 }
 
+/**
+ * Realizar busca de usuários
+ * @param term Termo de busca
+ */
 function handleSearch(term) {
   searchTerm.value = term;
   fetchUsers(0);
 }
+
+/**
+ * Escuta o evento disparado pelo dialog de usuário em caso de atualização ou criação
+ */
 function handleUserAdded() {
+  searchTerm.value = ""
   fetchUsers()
 }
 
@@ -69,15 +93,19 @@ onMounted(() => {
       <h2>Gerenciamento de Usuários</h2>
     </header>
 
-    <SearchBar
-      @search="handleSearch"
-    />
+    <SearchBar @search="handleSearch" />
     <div class="actions">
-      <button class="btn add-user" @click="openAddUserDialog">
-        Adicionar Usuário
-      </button>
+      <div>
+        <label for="pageSize">Usuários por página:</label>
+        <input type="number" v-model="pageSize" min="1" max="20" @change="fetchUsers(0)" />
+      </div>
+      <div>
+        <button class="btn add-user" @click="() => openAddUserDialog(null)">
+          Adicionar Usuário
+        </button>
+      </div>
     </div>
-    <UserTable :users="users" />
+    <UserTable :users="users" @edit-user="openAddUserDialog" />
 
     <div class="pagination">
       <button @click="prevPage" :disabled="currentPage === 0">Anterior</button>
@@ -87,12 +115,13 @@ onMounted(() => {
       </button>
     </div>
   </div>
-  <UserRegisterForm :show="showAddUserDialog" @close="closeAddUserDialog" @user-added="handleUserAdded" />
+  <UserDialog :user="selectedUser" :show="showAddUserDialog" @close="closeAddUserDialog" @saved="handleUserAdded" />
 </template>
 
 <style scoped>
 .page-container {
   max-width: 1000px;
+
   margin: 0 auto;
   padding: 20px;
 }
@@ -128,9 +157,11 @@ onMounted(() => {
 
 .actions {
   display: flex;
+  gap: 20px;
   justify-content: flex-end;
   margin-bottom: 12px;
 }
+
 .actions .btn.add-user {
   background: #42b883;
   color: white;
@@ -139,6 +170,7 @@ onMounted(() => {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .actions .btn.add-user:hover {
   background: #369870;
 }

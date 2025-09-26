@@ -8,9 +8,6 @@ function editUser(user) {
   emit('edit-user', user)
 }
 
-function deleteUser(user) {
-  emit('delete-user', user)
-}
 </script>
 
 <template>
@@ -124,6 +121,4 @@ function deleteUser(user) {
 .btn.delete:hover {
   background: #c62828;
 }
-
-
 </style>

@@ -41,7 +41,7 @@ async function fetchUsers(page = 0) {
     });
     users.value = data.content;
     totalPages.value = data.totalPages;
-    currentPage.value = data.number;
+    currentPage.value = data.pageNumber;
   } catch (err) {
     console.error("Erro ao carregar usuários", err);
   }

@@ -55,13 +55,16 @@ public class UserService {
         if (!validarDocumento(dto.document())) {
             throw new InvalidDocumentException("Documento inválido");
         }
-        boolean exists = userRepository.existsByDocument(dto.document());
-        if (exists) {
-            throw new DuplicateDocumentException("Documento já cadastrado");
-        }
 
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        //Evita duplicidade de documentos
+        if(!user.getDocument().equals(dto.document())){
+            if (userRepository.existsByDocument(dto.document())) {
+                throw new DuplicateDocumentException("Documento já cadastrado");
+            }
+        }
 
         user.setName(dto.name());
         user.setDocument(dto.document());

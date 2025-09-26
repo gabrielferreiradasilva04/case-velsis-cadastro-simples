@@ -43,7 +43,7 @@ const userForm = ref({ ...defaultUser })
 watch(() => props.show, (val) => {
   if (val) {
     userForm.value = props.user ? { ...props.user } : { ...defaultUser }
-    docType.value = props.user?.document?.length >= 11 ? 'rg' : 'cpf'
+    docType.value = props.user?.document?.length >= 11 ? 'cpf' : 'rg'
   }
 })
 

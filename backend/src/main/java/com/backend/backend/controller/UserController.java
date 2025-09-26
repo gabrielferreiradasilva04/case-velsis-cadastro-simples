@@ -1,5 +1,6 @@
 package com.backend.backend.controller;
 
+import com.backend.backend.dto.PageDTO;
 import com.backend.backend.dto.UserRequestDTO;
 import com.backend.backend.dto.UserResponseDTO;
 import com.backend.backend.service.UserService;
@@ -33,9 +34,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable,
+    public ResponseEntity<PageDTO<UserResponseDTO>> getAllUsers(Pageable pageable,
                                                              @RequestParam(required = false) String searchTerm){
-        return ResponseEntity.ok(this.userService.getAll(pageable, searchTerm));
+        Page<UserResponseDTO> page = this.userService.getAll(pageable, searchTerm);
+        return ResponseEntity.ok(new PageDTO<>(page));
 
     }
 

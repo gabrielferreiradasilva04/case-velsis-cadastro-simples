@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
         ErrorDTO error = new ErrorDTO("document", e.getMessage());
         return new ResponseErrorDTO(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Erro de validação de documento",
+                "Documento inválido",
                 List.of(error)
         );
     }

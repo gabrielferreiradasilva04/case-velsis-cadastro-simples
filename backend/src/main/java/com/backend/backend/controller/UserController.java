@@ -4,6 +4,8 @@ import com.backend.backend.dto.UserRequestDTO;
 import com.backend.backend.dto.UserResponseDTO;
 import com.backend.backend.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllUsers(){
-        return ResponseEntity.ok().body(this.userService.getAll());
+    public ResponseEntity<Page<UserResponseDTO>> getAllUsers(Pageable pageable,
+                                                             @RequestParam(required = false) String searchTerm){
+        return ResponseEntity.ok(this.userService.getAll(pageable, searchTerm));
+
     }
 
     @DeleteMapping("/{userId}")

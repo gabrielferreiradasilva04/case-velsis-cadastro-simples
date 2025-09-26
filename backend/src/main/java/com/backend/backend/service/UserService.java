@@ -6,6 +6,8 @@ import com.backend.backend.dto.UserResponseDTO;
 import com.backend.backend.repository.UserRepository;
 import com.backend.backend.util.mapper.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,9 +31,14 @@ public class UserService {
         return this.userMapper.entityToResponseDto(this.userRepository.save(userEntity));
     }
 
-    public List<UserResponseDTO> getAll(){
-        List<UserEntity> userList = this.userRepository.findAll();
-        return userList.stream().map(this.userMapper::entityToResponseDto).toList();
+    public Page<UserResponseDTO> getAll(Pageable pageable, String searchTerm){
+        if(searchTerm == null || searchTerm.isEmpty()){
+            return this.userRepository.findAll(pageable).map(this.userMapper::entityToResponseDto);
+        }
+        return this.userRepository
+                .findByNameContainingIgnoreCase(searchTerm, pageable)
+                .map(this.userMapper::entityToResponseDto);
+
     }
 
     public void update(UserRequestDTO dto, UUID userId){

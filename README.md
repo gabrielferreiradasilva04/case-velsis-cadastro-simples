@@ -1,6 +1,7 @@
 # Case Velsis
 
 Um projeto fullstack simples para gerenciar usuários com frontend em **Vue 3**, backend em **Spring Boot** e banco de dados **PostgreSQL**.  
+Foi utilizado docker para servir os serviços desenvolvidos
 
 O frontend é servido via **Nginx** após build e o backend via **Spring Boot**.
 

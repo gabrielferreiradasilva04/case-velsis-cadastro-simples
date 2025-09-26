@@ -24,6 +24,13 @@ O frontend é servido via **Nginx** após build e o backend via **Spring Boot**.
 - Backend configurado com JPA/Hibernate
 
 ---
+## Portas
+
+- frontend: http://localhost:3000/
+- backend: http://localhost:8080/
+- postgres: http://localhost:5432/
+
+---
 
 ## Pré-requisitos
 

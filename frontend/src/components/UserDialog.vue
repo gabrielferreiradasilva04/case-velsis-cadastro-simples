@@ -43,7 +43,7 @@ const userForm = ref({ ...defaultUser })
 watch(() => props.show, (val) => {
   if (val) {
     userForm.value = props.user ? { ...props.user } : { ...defaultUser }
-    docType.value = props.user?.document?.length > 11 ? 'rg' : 'cpf'
+    docType.value = props.user?.document?.length >= 11 ? 'rg' : 'cpf'
   }
 })
 
@@ -83,8 +83,9 @@ async function submitUser() {
     if (props.user) {
       await api.put(`/users/${props.user.id}`, { ...userForm.value })
     } else {
-      await api.post('/users', { ...userForm.value})
+      await api.post('/users', { ...userForm.value })
     }
+
     emits('saved')
     emits('close')
     emits('user-added')
@@ -92,9 +93,11 @@ async function submitUser() {
     toast.success(`Usuário ${props.user ? 'atualizado' : 'salvo'} com sucesso!`)
   } catch (err) {
     console.error('Erro ao salvar usuário', err);
-    toast.error('Erro ao salvar usuário. Verifique os dados e tente novamente.')
+    const message = err.response?.data?.message || 'Erro ao salvar usuário. Verifique os dados e tente novamente.';
+    toast.error(message);
   }
 }
+
 
 /**
  * Máscaras de entrada

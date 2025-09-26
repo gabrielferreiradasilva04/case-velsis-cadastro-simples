@@ -38,4 +38,33 @@ public class GlobalExceptionHandler {
                 e.getMessage(),
                 null);
     }
+
+    /***
+     * Escuta exceptions disparadas pelo validador de cpf
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(InvalidDocumentException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseErrorDTO handleInvalidDocumentException(InvalidDocumentException e) {
+        ErrorDTO error = new ErrorDTO("document", e.getMessage());
+        return new ResponseErrorDTO(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro de validação de documento",
+                List.of(error)
+        );
+    }
+
+    @ExceptionHandler(DuplicateDocumentException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseErrorDTO handleInvalidDocumentException(DuplicateDocumentException e) {
+        ErrorDTO error = new ErrorDTO("document", e.getMessage());
+        return new ResponseErrorDTO(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Já existe um usuário registrado com esse documento",
+                List.of(error)
+        );
+    }
+
+
 }

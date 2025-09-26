@@ -22,7 +22,7 @@ public class UserEntity {
     private String name;
     @Column(nullable = false)
     private LocalDate birthDate;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String document;
 
     //variáveis do endereço

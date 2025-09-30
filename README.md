@@ -54,7 +54,6 @@ Espero que gostem do projeto!
 ## Como rodar
 
 Clone o repositório:
-- git clone git@github.com:gabrielferreiradasilva04/case-velsis-cadastro-simples.git ou https://github.com/gabrielferreiradasilva04/case-velsis-cadastro-simples.git
-- cd crud-usuario-simples-vue
-
+- git clone https://github.com/gabrielferreiradasilva04/case-velsis-cadastro-simples.git
+- cd case-velsis-cadastro-simples
 - docker-compose up --build
